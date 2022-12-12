@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title movie is defined ? movie.title : 'Not Found' %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <section class="example-wrapper">
+        <h1>{{ movie.title }}</h1>
+
+        <ul>
+            <li>Id : {{ movie.id }}</li>
+            <li>Released At : {{ movie.releasedAt|date('d M Y') }}</li>
+            <li>Genre : {{ movie.genre|join(', ') }}</li>
+        </ul>
+    </section>
+{% endblock %}

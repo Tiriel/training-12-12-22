@@ -1,14 +1,14 @@
-version: '3'
+version: '3.2'
 
 services:
-###> doctrine/doctrine-bundle ###
   database:
     ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+      - "3306:3306" # Customize left part if you run many projects
 
-###> symfony/mailer ###
-  mailer:
-    image: schickling/mailcatcher
-    ports: [1025, 1080]
-###< symfony/mailer ###
+  php:
+    volumes:
+      - ~/.composer:/home/.composer
+#  mailcatcher:
+#    image: jderusse/mailcatcher
+#    ports:
+#      - 8001:80

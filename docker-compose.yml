@@ -9,6 +9,7 @@ services:
       - ./docker/mysql/config:/etc/mysql/mysql.conf.d/:ro
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  # connection URL: DATABASE_URL="mysql://database:3306/app?serverVersion=mariadb-10.2.44&charset=utf8mb4"
 
   php:
     build: ./docker/php

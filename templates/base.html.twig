@@ -16,9 +16,11 @@
     <body>
     {% set var = 'foo' %}
         <header>
-            {{ include('fragments/_navbar.html.twig', {'currentRoute': app.request.attributes.get('_route')}, with_context = false) }}
+            {% block header %}
+                {{ include('fragments/_navbar.html.twig', {'currentRoute': app.request.attributes.get('_route')}, with_context = false) }}
+            {% endblock %}
         </header>
-        <main class="container">
+        <main class="container mt-5">
         {% block body %}{% endblock %}
         </main>
     </body>

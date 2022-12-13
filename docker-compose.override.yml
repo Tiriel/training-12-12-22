@@ -8,6 +8,10 @@ services:
   php:
     volumes:
       - ~/.composer:/home/.composer
+
+  node:
+    volumes:
+      - ~/.npm:/home/.npm
 #  mailcatcher:
 #    image: jderusse/mailcatcher
 #    ports:

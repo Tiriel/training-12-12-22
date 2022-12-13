@@ -32,6 +32,12 @@ class Comment
      */
     private string $content;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="comments", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Book $book;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +75,18 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
 
         return $this;
     }

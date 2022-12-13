@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title book is not null ? book.title : 'Not Found' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section class="example-wrapper">
+        {% if book is not null %}
+            <h1>{{ book.title }}</h1>
+
+            <ul>
+                <li>Id : {{ book.id }}</li>
+                <li>Released At : {{ book.releasedAt|date('d M Y') }}</li>
+            </ul>
+        {% else %}
+            <h1>Movie not found</h1>
+        {% endif %}
+    </section>
+{% endblock %}

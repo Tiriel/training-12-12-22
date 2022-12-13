@@ -33,12 +33,12 @@ class Book
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $cover;
+    private ?string $cover = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $author;
+    private ?string $author = null;
 
     /**
      * @ORM\Column(type="datetime_immutable")

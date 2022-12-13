@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,11 +14,18 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('isbn')
-            ->add('cover')
-            ->add('author')
-            ->add('releasedAt')
+            ->add('title', TextType::class)
+            ->add('isbn', TextType::class)
+            ->add('cover', TextType::class, [
+                'required' => false,
+            ])
+            ->add('author', TextType::class, [
+                'required' => false,
+            ])
+            ->add('releasedAt', DateType::class, [
+                'input' => 'datetime_immutable',
+                'widget' => 'single_text',
+            ])
         ;
     }
 

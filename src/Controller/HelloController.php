@@ -11,10 +11,10 @@ class HelloController extends AbstractController
     /**
      * @Route("/hello/{name<[a-zA-Z- ]+>?World}", name="app_hello_index", methods={"GET"})
      */
-    public function index(string $name): Response
+    public function index(string $name, string $sfVersion): Response
     {
         return $this->render('hello/index.html.twig', [
-            'controller_name' => $name,
+            'controller_name' => $name . " - Sf version : " . $sfVersion,
         ]);
     }
 }

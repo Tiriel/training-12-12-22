@@ -10,7 +10,7 @@
         {% for book in books ?? [] %}
             <div class="col">
                 <a href="{{ path('app_book_details', {'id': book.id}) }}">
-                    <div class="card w-75">
+                    <div class="card w-75" style="min-height: 200px;">
                         {% if book.cover is not null %}
                             <img src="{{ book.cover }}" alt="{{ book.cover }}">
                         {% endif %}

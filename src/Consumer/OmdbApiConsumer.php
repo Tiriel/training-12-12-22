@@ -2,6 +2,7 @@
 
 namespace App\Consumer;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OmdbApiConsumer
@@ -22,7 +23,7 @@ class OmdbApiConsumer
             throw new \InvalidArgumentException();
         }
 
-        return $this->client->request(
+        $data = $this->client->request(
             'GET',
             '',
             [
@@ -31,5 +32,11 @@ class OmdbApiConsumer
                 ],
             ]
         )->toArray();
+
+        if (array_key_exists('Response', $data) && $data['Response'] === 'False') {
+            throw new NotFoundHttpException();
+        }
+
+        return $data;
     }
 }

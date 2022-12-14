@@ -30,6 +30,8 @@ EOD;
                 ->setCountry($item['Country'])
                 ->setReleasedAt(new \DateTimeImmutable($date))
                 ->setPlot($item['Plot'])
+                ->setRated($item['Rated'])
+                ->setImdbId($item['imdbID'])
                 ->setPrice(500)
                 ;
             $genres = explode(', ', $item['Genre']);

@@ -55,6 +55,16 @@ class Movie
      */
     private Collection $genre;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imdbId;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $rated;
+
     public function __construct()
     {
         $this->genre = new ArrayCollection();
@@ -157,6 +167,30 @@ class Movie
     public function removeGenre(Genre $genre): self
     {
         $this->genre->removeElement($genre);
+
+        return $this;
+    }
+
+    public function getImdbId(): ?string
+    {
+        return $this->imdbId;
+    }
+
+    public function setImdbId(?string $imdbId): self
+    {
+        $this->imdbId = $imdbId;
+
+        return $this;
+    }
+
+    public function getRated(): ?string
+    {
+        return $this->rated;
+    }
+
+    public function setRated(string $rated): self
+    {
+        $this->rated = $rated;
 
         return $this;
     }

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\MovieType;
 use App\Provider\MovieProvider;
 use App\Repository\MovieRepository;
+use App\Security\Voter\MovieVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +34,11 @@ class MovieController extends AbstractController
      */
     public function details(int $id, MovieRepository $repository): Response
     {
+        $movie = $repository->find($id);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
+
         return $this->render('movie/details.html.twig', [
-            'movie' => $repository->find($id),
+            'movie' => $movie,
         ]);
     }
 
@@ -43,8 +47,11 @@ class MovieController extends AbstractController
      */
     public function omdb(string $title, MovieProvider $provider)
     {
+        $movie = $provider->getMovie(OmdbApiConsumer::MODE_TITLE, $title);
+        $this->denyAccessUnlessGranted(MovieVoter::VIEW, $movie);
+
         return $this->render('movie/details.html.twig', [
-            'movie' => $provider->getMovie(OmdbApiConsumer::MODE_TITLE, $title),
+            'movie' => $movie,
         ]);
     }
 
@@ -58,7 +65,7 @@ class MovieController extends AbstractController
         $form = $this->createForm(MovieType::class, $movie);
 
         if ($request->attributes->get('_route') === 'app_movie_edit') {
-            $this->denyAccessUnlessGranted('movie.edit', $movie);
+            $this->denyAccessUnlessGranted(MovieVoter::EDIT, $movie);
         }
 
         $form->handleRequest($request);

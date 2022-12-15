@@ -27,6 +27,7 @@ class BookController extends AbstractController
      */
     public function details(int $id, BookRepository $repository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
         $book = $repository->find($id);
 
         return $this->render('book/index.html.twig', [

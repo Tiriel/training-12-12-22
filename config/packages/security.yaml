@@ -3,16 +3,47 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    role_hierarchy:
+        ROLE_TOTO: ROLE_USER
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_PROVIDER: ROLE_USER
+        ROLE_ADMIN:
+            - ROLE_TOTO
+            - ROLE_MODERATOR
+            - ROLE_PROVIDER
+
+    access_decision_manager:
+        allow_if_all_abstain: false
+        strategy: affirmative # priority, unanimous, consensus
+
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        users_in_memory:
+            memory:
+                users:
+                    admin@admin.com: { password: '%env(string:ADMIN_PWD)%', roles: [ROLE_ADMIN] }
+        app_entity_users:
+            entity:
+                class: App\Entity\User
+                property: email
+        app_all_users:
+            chain:
+                providers: [users_in_memory, app_entity_users]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_all_users
+            custom_authenticator: App\Security\AppLoginFormAuthenticator
+            logout:
+                path: app_logout
+                target: app_main_index
+#            login_throttling:
+#                max_attempts: 3
+#                interval: '10 minutes'
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -23,7 +54,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/login, roles: PUBLIC_ACCESS }
+#        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/admin/(book|movie)/\d+/edit, roles: ROLE_USER }
+#        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

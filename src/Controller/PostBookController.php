@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\User;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use App\Security\Voter\BookVoter;
@@ -28,6 +29,9 @@ class PostBookController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser() instanceof User) {
+                $book->setCreatedBy($this->getUser());
+            }
             $repository->save($book, true);
 
             return $this->redirectToRoute('app_book_details', ['id' => $book->getId()]);
